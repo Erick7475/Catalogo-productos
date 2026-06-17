@@ -1,322 +1,287 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo de Productos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
 
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #d7f2ff, #9fdcff, #6ebfff);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-body{
-    font-family:Arial, Helvetica, sans-serif;
-    background:linear-gradient(135deg,#d7f2ff,#9fdcff,#6ebfff);
-    min-height:100vh;
-    padding:20px;
-}
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 42px;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, .3);
+        }
 
-h1{
-    text-align:center;
-    color:white;
-    font-size:42px;
-    margin-bottom:30px;
-    text-shadow:2px 2px 5px rgba(0,0,0,.3);
-}
+        .categorias {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-.categorias{
-    text-align:center;
-    margin-bottom:30px;
-}
+        .categorias button {
+            padding: 10px 18px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            background: #0f4c81;
+            color: white;
+            cursor: pointer;
+            transition: .3s;
+            font-size: 15px;
+        }
 
-.categorias button{
-    padding:10px 18px;
-    margin:5px;
-    border:none;
-    border-radius:8px;
-    background:#0f4c81;
-    color:white;
-    cursor:pointer;
-    transition:.3s;
-    font-size:15px;
-}
+        .categorias button:hover {
+            background: #1976b8;
+        }
 
-.categorias button:hover{
-    background:#1976b8;
-}
+        .catalogo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
 
-.catalogo{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:20px;
-}
+        .producto {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
+            overflow: hidden;
+            transition: .3s;
+        }
 
-.producto{
-    background:white;
-    border-radius:12px;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
-    overflow:hidden;
-    transition:.3s;
-}
+        .producto:hover {
+            transform: translateY(-5px);
+        }
 
-.producto:hover{
-    transform:translateY(-5px);
-}
+        .producto img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            background: #f0f0f0;
+        }
 
-.producto img{ 
-    width:100%; 
-    height:250px; 
-    object-fit:cover; 
-    display:block; 
-    cursor:pointer; 
-    background:#f0f0f0; 
-}
+        .producto h2 {
+            text-align: center;
+            margin-top: 15px;
+            color: #222;
+        }
 
-.producto h2{
-    text-align:center;
-    margin-top:15px;
-    color:#222;
-}
+        .producto p {
+            padding: 10px 15px;
+            color: #555;
+            line-height: 1.5;
+            font-size: 14px;
+        }
 
-.producto p{
-    padding:10px 15px;
-    color:#555;
-    line-height:1.5;
-    font-size:14px;
-}
+        .precio {
+            text-align: center;
+            color: #d90429;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
 
-.precio{
-    text-align:center;
-    color:#d90429;
-    font-size:24px;
-    font-weight:bold;
-    margin-bottom:15px;
-}
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* Modal */
+        .modal-content {
+            display: block;
+            margin: auto;
+            margin-top: 40px;
+            max-width: 90%;
+            max-height: 85%;
+            object-fit: contain;
+        }
 
-.modal{
-    display:none;
-    position:fixed;
-    left:0;
-    top:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,.85);
-    z-index:1000;
-}
+        .close {
+            position: absolute;
+            right: 30px;
+            top: 10px;
+            color: white;
+            font-size: 50px;
+            cursor: pointer;
+        }
 
-.modal-content{
-    display:block;
-    margin:auto;
-    margin-top:40px;
-    max-width:90%;
-    max-height:85%;
-}
-
-.close{
-    position:absolute;
-    right:30px;
-    top:10px;
-    color:white;
-    font-size:50px;
-    cursor:pointer;
-}
-
-footer{
-    width:100%;
-    margin-top:40px;
-    background:#0f4c81;
-    color:white;
-    text-align:center;
-    padding:18px;
-    font-size:20px;
-    border-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,.2);
-}
-
-</style>
-
+        footer {
+            width: 100%;
+            margin-top: 40px;
+            background: #0f4c81;
+            color: white;
+            text-align: center;
+            padding: 18px;
+            font-size: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+        }
+    </style>
 </head>
 
 <body>
 
-<h1>Catálogo de Productos</h1>
+    <h1>Catálogo de Productos</h1>
 
-<div class="categorias">
+    <div class="categorias">
+        <button onclick="filtrarCategoria('camisetas')">Camisetas - Camisas</button>
+        <button onclick="filtrarCategoria('perfumes')">Perfumes</button>
+        <button onclick="filtrarCategoria('todos')">Todos</button>
+    </div>
 
-<button onclick="filtrarCategoria('camisetas')">
-Camisetas - Camisas
-</button>
+    <div class="catalogo">
+        <div class="producto camisetas">
+            <img src="Camiseta1.jpeg" onclick="abrirModal(this)">
+            <h2>Camiseta Hulk Hogan</h2>
+            <p>Camiseta de algodón color negro, cuello redondo, talla M. Ideal para coleccionistas.</p>
+            <div class="precio">$15.00</div>
+        </div>
 
-<button onclick="filtrarCategoria('perfumes')">
-Perfumes
-</button>
+        <div class="producto camisetas">
+            <img src="Camiseta2.jpg" onclick="abrirModal(this)">
+            <h2>Camiseta Coca-Cola</h2>
+            <p>Camiseta color gris, talla M, comprada en Estados Unidos.</p>
+            <div class="precio">$10.00</div>
+        </div>
 
-<button onclick="filtrarCategoria('todos')">
-Todos
-</button>
+        <div class="producto camisetas">
+            <img src="Camiseta5.jpg" onclick="abrirModal(this)">
+            <h2>Camiseta Orlando Florida</h2>
+            <p>Camiseta vintage color negro con diseño de Mickey Mouse.</p>
+            <div class="precio">$5.00</div>
+        </div>
 
-</div>
+        <div class="producto camisetas">
+            <img src="Camiseta3.jpg" onclick="abrirModal(this)">
+            <h2>Camisa American Eagle</h2>
+            <p>Camisa casual color celeste, talla XL.</p>
+            <div class="precio">$15.00</div>
+        </div>
 
-<div class="catalogo">
+        <div class="producto camisetas">
+            <img src="Camiseta4.jpg" onclick="abrirModal(this)">
+            <h2>Camisa MANGO</h2>
+            <p>Camisa moderna con líneas negras verticales, talla XL.</p>
+            <div class="precio">$15.00</div>
+        </div>
 
-<!-- CAMISETAS -->
+        <div class="producto camisetas">
+            <img src="Camiseta6.jpg" onclick="abrirModal(this)">
+            <h2>Camiseta PUMA</h2>
+            <p>Camiseta color azul, talla M, comprada en Estados Unidos.</p>
+            <div class="precio">$7.00</div>
+        </div>
 
-<div class="producto camisetas">
-<img src="Camiseta1.jpeg" onclick="abrirModal(this)">
-<h2>Camiseta Hulk Hogan</h2>
-<p>Camiseta de algodón color negro, cuello redondo, talla M. Ideal para coleccionistas.</p>
-<div class="precio">$15.00</div>
-</div>
+        <div class="producto perfumes">
+            <img src="perfume1f.jpg" onclick="abrirModal(this)" onerror="this.src='https://placehold.co/400x250?text=Sin+Imagen';">
+            <h2>Perfume Leyenda</h2>
+            <p>Fragancia masculina con notas cítricas y amaderadas.</p>
+            <div class="precio">$15.00</div>
+        </div>
 
-<div class="producto camisetas">
-<img src="Camiseta2.jpg" onclick="abrirModal(this)">
-<h2>Camiseta Coca-Cola</h2>
-<p>Camiseta color gris, talla M, comprada en Estados Unidos.</p>
-<div class="precio">$10.00</div>
-</div>
+        <div class="producto perfumes">
+            <img src="perfume3.jpg" onclick="abrirModal(this)" onerror="this.src='https://placehold.co/400x250?text=Próximamente';">
+            <h2>Perfume Cítrico</h2>
+            <p>Notas frescas de limón y naranja.</p>
+            <div class="precio">$40.00</div>
+        </div>
 
-<div class="producto camisetas">
-<img src="Camiseta5.jpg" onclick="abrirModal(this)">
-<h2>Camiseta Orlando Florida</h2>
-<p>Camiseta vintage color negro con diseño de Mickey Mouse.</p>
-<div class="precio">$5.00</div>
-</div>
-
-<div class="producto camisetas">
-<img src="Camiseta3.jpg" onclick="abrirModal(this)">
-<h2>Camisa American Eagle</h2>
-<p>Camisa casual color celeste, talla XL.</p>
-<div class="precio">$15.00</div>
-</div>
-
-<div class="producto camisetas">
-<img src="Camiseta4.jpg" onclick="abrirModal(this)">
-<h2>Camisa MANGO</h2>
-<p>Camisa moderna con líneas negras verticales, talla XL.</p>
-<div class="precio">$15.00</div>
-</div>
-
-<div class="producto camisetas">
-<img src="Camiseta6.jpg" onclick="abrirModal(this)">
-<h2>Camiseta PUMA</h2>
-<p>Camiseta color azul, talla M, comprada en Estados Unidos.</p>
-<div class="precio">$7.00</div>
-</div>
-
-<!-- PERFUMES -->
-
-<div class="producto perfumes">
-    <img src="perfume1f.jpg"
-         onclick="abrirModal(this)"
-         onerror="this.src='https://placehold.co/400x250?text=Sin+Imagen';">
-    <h2>Perfume Leyenda</h2>
-    <p>Fragancia masculina con notas cítricas y amaderadas.</p>
-    <div class="precio">$15.00</div>
-</div>
-
-
-<div class="producto perfumes">
-    <img src="perfume3.jpg"
-         onclick="abrirModal(this)"
-         onerror="this.src='https://placehold.co/400x250?text=Próximamente';">
-    <h2>Perfume Cítrico</h2>
-    <p>Notas frescas de limón y naranja.</p>
-    <div class="precio">$40.00</div>
-</div>
-
-<div class="producto perfumes">
-            <img src="perfume2.jpg" onclick="abrirModal(this)" >
+        <div class="producto perfumes">
+            <img src="perfume2.jpg" onclick="abrirModal(this)">
             <h2>Perfume Amaderado</h2>
             <p>PARCIAL - 130/200 ML. Fragancia Gold Man, cítrica-madera, similar a Bleu de Channel.</p>
             <div class="precio">$20.00</div>
         </div>
 
-<div class="producto perfumes">
-            <img src="perfume3.jpg" onclick="abrirModal(this)" >
+        <div class="producto perfumes">
+            <img src="perfume3.jpg" onclick="abrirModal(this)">
             <h2>Perfume Cítrico y acuático</h2>
             <p>PARCIAL - 50/100 ML. Fragancia Árabe Hawas de Rasasi. Exquisito.</p>
             <div class="precio">$30.00</div>
         </div>
 
-
-<div class="producto perfumes">
-            <img src="perfume4.jpg" onclick="abrirModal(this)" >
+        <div class="producto perfumes">
+            <img src="perfume4.jpg" onclick="document.getElementById('miModal').style.display='block'; abrirModal(this)">
             <h2>Perfume Aromático</h2>
             <p>PARCIAL - 45/100 ML. Fragancia Dylan Blue de Versace. Poderosa.</p>
             <div class="precio">$40.00</div>
         </div>
 
-
-<div class="producto perfumes">
-            <img src="perfume5.jpg" onclick="abrirModal(this)" >
+        <div class="producto perfumes">
+            <img src="perfume5.jpg" onclick="abrirModal(this)">
             <h2>Perfume Aromático-Especiado</h2>
             <p>PARCIAL - 35/50 ML. The Scent de Hugo Boss, cuero y madera. Una chulada.</p>
             <div class="precio">$40.00</div>
         </div>
+    </div>
 
+    <div id="miModal" class="modal">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <img class="modal-content" id="imagenModal">
+    </div>
 
+    <footer>
+        <p>Catálogo 2026 - Todos los derechos reservados</p>
+    </footer>
 
-<script>
+    <script>
+        function filtrarCategoria(categoria) {
+            let productos = document.querySelectorAll(".producto");
+            productos.forEach(function (producto) {
+                if (categoria == "todos") {
+                    producto.style.display = "block";
+                } else {
+                    producto.style.display = producto.classList.contains(categoria) ? "block" : "none";
+                }
+            });
+        }
 
-function filtrarCategoria(categoria){
+        function abrirModal(img) {
+            document.getElementById("miModal").style.display = "flex"; // Se cambió a flex para centrar mejor
+            document.getElementById("imagenModal").src = img.src;
+        }
 
-let productos=document.querySelectorAll(".producto");
+        function cerrarModal() {
+            document.getElementById("miModal").style.display = "none";
+        }
 
-productos.forEach(function(producto){
+        window.onclick = function (event) {
+            let modal = document.getElementById("miModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
 
-if(categoria=="todos"){
-producto.style.display="block";
-}
-else{
-producto.style.display=
-producto.classList.contains(categoria)
-? "block":"none";
-}
-
-});
-
-}
-
-function abrirModal(img){
-
-document.getElementById("miModal").style.display="block";
-document.getElementById("imagenModal").src=img.src;
-
-}
-
-function cerrarModal(){
-
-document.getElementById("miModal").style.display="none";
-
-}
-
-window.onclick=function(event){
-
-let modal=document.getElementById("miModal");
-
-if(event.target==modal){
-modal.style.display="none";
-}
-
-}
-
-document.addEventListener("keydown",function(e){
-
-if(e.key=="Escape"){
-cerrarModal();
-}
-
-});
-
-</script>
+        document.addEventListener("keydown", function (e) {
+            if (e.key == "Escape") {
+                cerrarModal();
+            }
+        });
+    </script>
 
 </body>
 </html>
